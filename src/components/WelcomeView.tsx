@@ -1,15 +1,19 @@
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, MapPin, Sparkles, Store } from 'lucide-react'
+import { Accessibility, ArrowRight, Languages, MapPin, Sparkles, Store } from 'lucide-react'
 import hotpot from '@/assets/hotpot.jpg'
 import { Button } from '@/components/ui/button'
 import { tableAreas } from '@/data/menu'
 
 interface WelcomeViewProps {
   table: string
+  language: string
+  elderly: boolean
   onEnter: () => void
+  onToggleLanguage: () => void
+  onToggleElderly: () => void
 }
 
-export function WelcomeView({ table, onEnter }: WelcomeViewProps) {
+export function WelcomeView({ table, language, elderly, onEnter, onToggleLanguage, onToggleElderly }: WelcomeViewProps) {
   const { t } = useTranslation()
   const areaKey = tableAreas[table]
   const tableLabel = areaKey ? `${table} · ${t(areaKey)}` : table
@@ -18,6 +22,14 @@ export function WelcomeView({ table, onEnter }: WelcomeViewProps) {
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-rice-100 paper-noise">
       <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-chili-100 blur-3xl" />
       <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-amber-100 blur-3xl" />
+      <div className="absolute right-4 top-4 z-10 flex gap-2 sm:right-6 sm:top-6">
+        <Button variant="outline" size="icon" onClick={onToggleElderly} aria-label={elderly ? t('common.aria_elderly_off') : t('common.aria_elderly_on')}>
+          <Accessibility size={18} className={elderly ? 'text-chili-500' : ''} />
+        </Button>
+        <Button variant="outline" size="sm" onClick={onToggleLanguage} aria-label={t('common.aria_lang')}>
+          <Languages size={16} />{language === 'zh' ? 'EN' : '中'}
+        </Button>
+      </div>
 
       <div className="relative mx-auto w-full max-w-md px-5 py-10">
         <section className="animate-rise overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-float backdrop-blur">
