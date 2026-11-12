@@ -83,15 +83,32 @@ export default function App() {
   }
   const handleToggleElderly = () => {
     toggleElderly()
-    dispatch({ type: 'SET_MESSAGE', message: elderly ? '已切换为常规模式' : '已切换为老人模式' })
+    dispatch({ type: 'SET_MESSAGE', message: elderly ? t('message.mode_regular') : t('message.mode_elderly') })
   }
 
   if (state.view === 'home' || !state.table) {
-    return <HomeView onBind={(table) => dispatch({ type: 'BIND_TABLE', table })} />
+    return (
+      <HomeView
+        language={i18n.language}
+        elderly={elderly}
+        onBind={(table) => dispatch({ type: 'BIND_TABLE', table })}
+        onToggleLanguage={toggleLanguage}
+        onToggleElderly={handleToggleElderly}
+      />
+    )
   }
 
   if (state.view === 'welcome') {
-    return <WelcomeView table={state.table!} onEnter={() => dispatch({ type: 'SET_VIEW', view: 'menu' })} />
+    return (
+      <WelcomeView
+        table={state.table!}
+        language={i18n.language}
+        elderly={elderly}
+        onEnter={() => dispatch({ type: 'SET_VIEW', view: 'menu' })}
+        onToggleLanguage={toggleLanguage}
+        onToggleElderly={handleToggleElderly}
+      />
+    )
   }
 
   return (

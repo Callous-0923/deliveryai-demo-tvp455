@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Check, ChevronRight, MapPin, QrCode, Sparkles, Users } from 'lucide-react'
+import { Accessibility, Check, ChevronRight, Languages, MapPin, QrCode, Sparkles, Users } from 'lucide-react'
 import hotpot from '@/assets/hotpot.jpg'
 import { Button } from '@/components/ui/button'
 
@@ -10,14 +10,28 @@ const tableOptions = [
   { code: 'D03', areaKey: 'bind.area.window', seats: 6 },
 ]
 
-interface HomeViewProps { onBind: (table: string) => void }
+interface HomeViewProps {
+  language: string
+  elderly: boolean
+  onBind: (table: string) => void
+  onToggleLanguage: () => void
+  onToggleElderly: () => void
+}
 
-export function HomeView({ onBind }: HomeViewProps) {
+export function HomeView({ language, elderly, onBind, onToggleLanguage, onToggleElderly }: HomeViewProps) {
   const { t } = useTranslation()
   return (
     <main className="relative min-h-screen overflow-hidden bg-rice-100 paper-noise">
       <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-chili-100 blur-3xl" />
       <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-amber-100 blur-3xl" />
+      <div className="absolute right-4 top-4 z-10 flex gap-2 sm:right-6 sm:top-6">
+        <Button variant="outline" size="icon" onClick={onToggleElderly} aria-label={elderly ? t('common.aria_elderly_off') : t('common.aria_elderly_on')}>
+          <Accessibility size={18} className={elderly ? 'text-chili-500' : ''} />
+        </Button>
+        <Button variant="outline" size="sm" onClick={onToggleLanguage} aria-label={t('common.aria_lang')}>
+          <Languages size={16} />{language === 'zh' ? 'EN' : '中'}
+        </Button>
+      </div>
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-5 py-10 lg:grid-cols-2 lg:px-10">
         <section className="animate-rise">
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-chili-500/20 bg-white/80 px-3 py-2 text-xs font-bold text-chili-600 shadow-sm">
