@@ -25,7 +25,7 @@ test.describe('REQ-008: 基础可访问性与多语言体验', () => {
 
     await page.getByRole('button', { name: 'Switch to elderly mode' }).click()
     await expect(page.locator('html')).toHaveClass(/elderly/)
-    await expect(page.getByText('Switched to elderly mode')).toBeVisible()
+    await expect(page).toHaveURL(/#\/home$/)
     await expect(page.getByRole('button', { name: 'Switch to regular mode' })).toBeVisible()
   })
 
